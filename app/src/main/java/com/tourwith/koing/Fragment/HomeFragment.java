@@ -157,10 +157,6 @@ public class HomeFragment extends Fragment implements ViewPagerClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1000){
-            if(firebaseTour!=null)
-                firebaseTour.refresh();
-        }
 
         if(resultCode==1001){
 
@@ -206,5 +202,12 @@ public class HomeFragment extends Fragment implements ViewPagerClickListener {
         }else if(tourType.equals("Dining")){
             homeDiningImageView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void refresh() {
+
+        firebaseTour.refresh();
+
+
     }
 }

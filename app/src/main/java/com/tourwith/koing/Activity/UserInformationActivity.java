@@ -1,5 +1,6 @@
 package com.tourwith.koing.Activity;
 
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -35,7 +36,8 @@ public class UserInformationActivity extends AppCompatActivity {
     private String oUID;
     private String mUID;
 
-
+    private FirebaseTour firebaseTour;
+    private FirebaseProfile firebaseProfile;
 
     //인텐트에 mUID, oUID 넣고 사용한다.
     @Override
@@ -57,10 +59,10 @@ public class UserInformationActivity extends AppCompatActivity {
 
         initViewInstances();
 
-        FirebaseTour firebaseTour = new FirebaseTour(this);
+        firebaseTour = new FirebaseTour(this);
         firebaseTour.getToursOfUser(this, mUID, oUID, cardLayouts, cardAreaTexts, cardTypeTexts, cardLangTexts);
 
-        FirebaseProfile firebaseProfile = new FirebaseProfile();
+        firebaseProfile = new FirebaseProfile();
         firebaseProfile.getUser(this, oUID, profileNameTextView, profileNationLanguageTextView, introductionTextView, profileImageView, profileLanguage1TextView, profileLanguage2TextView);
 
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
@@ -117,4 +119,18 @@ public class UserInformationActivity extends AppCompatActivity {
         cardLangTexts[2] = (TextView) findViewById(R.id.card_lang_text33);
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        cardLayouts[0].setVisibility(View.GONE);
+        cardLayouts[1].setVisibility(View.GONE);
+        cardLayouts[2].setVisibility(View.GONE);
+
+        firebaseTour.getToursOfUser(this, mUID, oUID, cardLayouts, cardAreaTexts, cardTypeTexts, cardLangTexts);
+        firebaseProfile.getUser(this, oUID, profileNameTextView, profileNationLanguageTextView, introductionTextView, profileImageView, profileLanguage1TextView, profileLanguage2TextView);
+
+    }
+
 }
